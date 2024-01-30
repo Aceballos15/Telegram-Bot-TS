@@ -57,8 +57,6 @@ class clientService {
 
       const findBalanceCustomer = await axios.get(urlFindBalance)
 
-      console.log(findBalanceCustomer.data)
-
       if(findBalanceCustomer.data.status === 400 )
       {
         return {

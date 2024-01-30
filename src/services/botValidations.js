@@ -15,7 +15,6 @@ class botValidations {
     // If exists message
     if (message.message !== undefined) {
       console.log(message.message.text);
-
       // if message is a start conversation, show welcome message
       if (message.message.text == "/start") {
         await this.sendMessage(
@@ -38,8 +37,6 @@ class botValidations {
         const responseUpdate = await updateSaldo.checkBalance(
           message.message.chat.id
         );
-
-        console.log(responseUpdate);
 
         if (responseUpdate.status === "noDeuda") {
           await this.sendMessage(
