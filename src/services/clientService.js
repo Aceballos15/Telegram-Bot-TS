@@ -1,8 +1,10 @@
 const axios = require("axios");
 
+// initialize a new class for a new client service 
 class clientService {
   constructor() {}
 
+  // method to valide if client exists in zoho database
   async validateClient(clientDocument, chat_id) {
     const urlFindClient = `https://nexyapp-f3a65a020e2a.herokuapp.com/zoho/v1/console/Clientes_Report?where=Documento%3D%3D%22${clientDocument}%22`;
 
@@ -17,6 +19,7 @@ class clientService {
     }
   }
 
+  // Update idTelegram client from zoho database
   async updateClient(idClient, chat_id) {
     try {
       const updateClientUrl = `https://nexyapp-f3a65a020e2a.herokuapp.com/zoho/v1/console/Clientes_Report/${idClient[0].ID}`;
@@ -41,7 +44,7 @@ class clientService {
     }
   }
 
-
+  // this method find the client billings and return balances
   async checkBalance(chat_id){
     const urlFindClient = `https://nexyapp-f3a65a020e2a.herokuapp.com/zoho/v1/console/Clientes_Report?where=idTelegram%3D%3D%22${chat_id}%22`;
     const response = await axios.get(urlFindClient)
@@ -78,7 +81,7 @@ class clientService {
 
   }
 
-
+  // this method, show summary for "Saldo" column 
   sumarSaldo(array){
 
     var sumaTotal = array.reduce((acumulador, currencyObject) =>{

@@ -1,27 +1,38 @@
+// require axios for petitios
 const axios = require("axios");
+
 const BotUrl =
-  "https://api.telegram.org/bot6374276669:AAGx3_lIroSsaNmfxFSlDrQnV1I6UfhxHN4";
+  `https://api.telegram.org/bot${process.env.TOKEN_BOT}`;
 const clientService = require("./clientService");
+
+// create a new class for validate all messages
 class botValidations {
   constructor() {}
 
-  //validate message
+  //validate message(client conversation)
   async validateMessage(message) {
+    
+    // If exists message
     if (message.message !== undefined) {
       console.log(message.message.text);
 
+      // if message is a start conversation, show welcome message
       if (message.message.text == "/start") {
         await this.sendMessage(
           "¡Hola! 👋 Bienvenido al servicio automático para nuestros clientes TecnoSuper. ¿Qué deseas hacer hoy?",
           message.message.chat.id,
           true
         );
+
+      // if client conversation is Register, can he enter a id 
       } else if (message.message.text === "Registrarse") {
         await this.sendMessage(
           "Ingrese su numero de identificacion sin puntos, comas y/o espacios",
           message.message.chat.id,
           false
         );
+      
+      // if option is consult, then use client service 
       } else if (message.message.text === "Consultar saldo") {
         const updateSaldo = new clientService();
         const responseUpdate = await updateSaldo.checkBalance(
@@ -55,6 +66,8 @@ class botValidations {
             true
           );
         }
+
+      // if client enter a number or identifier
       } else if (this.validateNumer(message.message.text) === true) {
         await this.sendMessage("Validando...", message.message.chat.id, false);
 
@@ -76,6 +89,8 @@ class botValidations {
             message.message.chat.id
           );
         }
+      
+      // if command bot is not available, return welcome message
       } else {
         await this.sendMessage(
           "¡Hola! 👋 Bienvenido al servicio automático para nuestros clientes TecnoSuper. ¿Qué deseas hacer hoy?",
@@ -86,6 +101,7 @@ class botValidations {
     }
   }
 
+  // this function sends a message to chat_id client 
   async sendMessage(text, chat_id, markup) {
     try {
       var messageSend = "";
@@ -110,6 +126,7 @@ class botValidations {
     }
   }
 
+  // this function validates if the message is a numeric message
   validateNumer(text) {
     return /^\d+$/.test(text.trim());
   }
