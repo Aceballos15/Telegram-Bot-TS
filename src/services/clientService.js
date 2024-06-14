@@ -6,12 +6,12 @@ class clientService {
 
   // method to valide if client exists in zoho database
   async validateClient(clientDocument, chat_id) {
-    const urlFindClient = `https://nexyapp-f3a65a020e2a.herokuapp.com/zoho/v1/console/Clientes_Report?where=Documento%3D%3D%22${clientDocument}%22`;
+    const urlFindClient = `https://zoho.accsolutions.tech/API/v1/Clientes_Report?where=Documento%3D%3D%22${clientDocument}%22`;
 
     const response = await axios.get(urlFindClient);
 
     if (response.data.length > 0) {
-      return await this.updateClient(response.data, chat_id);
+      return await this.updateClient(response.data.data, chat_id);
     }else{
         return {
             status: false
@@ -22,7 +22,7 @@ class clientService {
   // Update idTelegram client from zoho database
   async updateClient(idClient, chat_id) {
     try {
-      const updateClientUrl = `https://nexyapp-f3a65a020e2a.herokuapp.com/zoho/v1/console/Clientes_Report/${idClient[0].ID}`;
+      const updateClientUrl = `https://zoho.accsolutions.tech/API/v1/Clientes_Report/${idClient[0].ID}`;
       const new_data = {
         "idTelegram": chat_id,
       };
@@ -46,14 +46,14 @@ class clientService {
 
   // this method find the client billings and return balances
   async checkBalance(chat_id){
-    const urlFindClient = `https://nexyapp-f3a65a020e2a.herokuapp.com/zoho/v1/console/Clientes_Report?where=idTelegram%3D%3D%22${chat_id}%22`;
+    const urlFindClient = `https://zoho.accsolutions.tech/API/v1/Clientes_Report?where=idTelegram%3D%3D%22${chat_id}%22`;
     const response = await axios.get(urlFindClient)
 
-    if(response.data.length > 0 ){
+    if(response.data.data.length > 0 ){
 
-      const idClient = response.data[0].ID;   
+      const idClient = response.data.data[0].ID;   
 
-      const urlFindBalance = `https://nexyapp-f3a65a020e2a.herokuapp.com/zoho/v1/console/Remision_Report?where=Cliente.ID%3D%3D${idClient}%26%26Saldo%3E0`
+      const urlFindBalance = `https://zoho.accsolutions.tech/API/v1/Remision_Report?where=Cliente.ID%3D%3D${idClient}%26%26Saldo%3E0`
 
       const findBalanceCustomer = await axios.get(urlFindBalance)
 
@@ -65,7 +65,7 @@ class clientService {
       }else{
         return {
           "status": "Deuda", 
-          "Saldo": this.sumarSaldo(findBalanceCustomer.data)
+          "Saldo": this.sumarSaldo(findBalanceCustomer.data.data)
         }
       }
 
