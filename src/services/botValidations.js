@@ -87,6 +87,7 @@ class botValidations {
           );
         }
       
+        
       // if command bot is not available, return welcome message
       } else {
         await this.sendMessage(
