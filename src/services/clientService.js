@@ -53,7 +53,7 @@ class clientService {
 
       const idClient = response.data.data[0].ID;   
 
-      const urlFindBalance = `https://zoho.accsolutions.tech/API/v1/Remision_Report?where=Cliente=="${idClient}"&&Saldo>0`
+      const urlFindBalance = `https://zoho.accsolutions.tech/API/v1/Remision_Report?where=Cliente==${idClient}&&Saldo>0`
 
       const findBalanceCustomer = await axios.get(urlFindBalance)
 
