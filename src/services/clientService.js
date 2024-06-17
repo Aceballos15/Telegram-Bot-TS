@@ -6,11 +6,11 @@ class clientService {
 
   // method to valide if client exists in zoho database
   async validateClient(clientDocument, chat_id) {
-    const urlFindClient = `https://zoho.accsolutions.tech/API/v1/Clientes_Report?where=Documento%3D%3D%22${clientDocument}%22`;
+    const urlFindClient = `https://zoho.accsolutions.tech/API/v1/Clientes_Report?where=Documento=="${clientDocument}"`;
 
     const response = await axios.get(urlFindClient);
 
-    if (response.data.length > 0) {
+    if (response.data.data.length > 0) {
       return await this.updateClient(response.data.data, chat_id);
     }else{
         return {
@@ -32,7 +32,7 @@ class clientService {
       if (response.data !== null ) {
         return {
             status: true, 
-            client: idClient
+            client: idClient[0]
         };
       }else{
         return {
