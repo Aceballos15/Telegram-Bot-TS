@@ -76,7 +76,7 @@ class botValidations {
 
         if (responseUpdate.status === true) {
           await this.sendMessage(
-            `Señor/a ${responseUpdate.client[0].Nombre} ${responseUpdate.client[0].Primer_Apellido} su telegram ha sido asociado con exito!!! \n A traves de este, podrá recibir notificaciones`,
+            `Señor/a ${responseUpdate.client.Nombre} ${responseUpdate.client.Primer_Apellido} su telegram ha sido asociado con exito!!! \n A traves de este, podrá recibir notificaciones`,
             message.message.chat.id,
             false
           );
@@ -87,7 +87,7 @@ class botValidations {
           );
         }
       
-        
+
       // if command bot is not available, return welcome message
       } else {
         await this.sendMessage(

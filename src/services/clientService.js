@@ -51,7 +51,7 @@ class clientService {
 
     if(response.data.data.length > 0 ){
 
-      const idClient = response.data.data[0].ID;   
+      const idClient = response.data.data.ID;   
 
       const urlFindBalance = `https://zoho.accsolutions.tech/API/v1/Remision_Report?where=Cliente.ID%3D%3D${idClient}%26%26Saldo%3E0`
 
