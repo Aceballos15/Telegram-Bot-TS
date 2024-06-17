@@ -46,14 +46,14 @@ class clientService {
 
   // this method find the client billings and return balances
   async checkBalance(chat_id){
-    const urlFindClient = `https://zoho.accsolutions.tech/API/v1/Clientes_Report?where=idTelegram%3D%3D%22${chat_id}%22`;
+    const urlFindClient = `https://zoho.accsolutions.tech/API/v1/Clientes_Report?where=idTelegram=="${chat_id}"`;
     const response = await axios.get(urlFindClient)
 
     if(response.data.data.length > 0 ){
 
       const idClient = response.data.data.ID;   
 
-      const urlFindBalance = `https://zoho.accsolutions.tech/API/v1/Remision_Report?where=Cliente.ID%3D%3D${idClient}%26%26Saldo%3E0`
+      const urlFindBalance = `https://zoho.accsolutions.tech/API/v1/Remision_Report?where=Cliente=="${idClient}"&&Saldo>0`
 
       const findBalanceCustomer = await axios.get(urlFindBalance)
 
